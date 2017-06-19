@@ -57,12 +57,13 @@ namespace RcsXMLReader
                                                     .ToLookup(m=>m.Key,             // ticket code
                                                               m=>m.Elements("T").Select(f=>f.Element("FF")).Select(ff=>new RCSFF { EndDate = ff.Attribute("u").Value}).ToList())));
 
-                //var l2 = doc.Descendants("F")
-                //    .GroupBy(x => x.Attribute("o").Value + x.Attribute("d").Value)
-                //    .ToLookup(a => a.Key,                                           // flow
-                //              a => a.GroupBy(b => b.Attribute("r").Value));
+                var l2 = doc.Descendants("F")
+                    .GroupBy(x => x.Attribute("o").Value + x.Attribute("d").Value)
+                    .ToLookup(a => a.Key,                                           // flow
+                              a => a.Select(b => b.Attribute("r").Value));
 
                 var r = l1["09909998"];
+                var r2 = l2["09909998"];
 
                 foreach (var flow in l1)
                 {
